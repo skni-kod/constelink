@@ -59,11 +59,11 @@ export const chats = pgTable(
   "chats",
   {
     id,
+    isMain: boolean("is_main").default(false),
     projectId: foreignKey("project_id")
       .notNull()
       .references(() => projects.id),
     userId: foreignKey("user_id").references(() => users.id),
-    isMain: boolean("is_main").default(false),
   },
   (chat) => ({
     projectIdIndex: index("project_id_index").on(chat.projectId),
@@ -127,7 +127,7 @@ export const projects = pgTable("projects", {
   name: text("name").notNull(),
 });
 
-export const projectsRelations = relations(projects, ({ many, one }) => ({
+export const projectsRelations = relations(projects, ({ many }) => ({
   chats: many(chats),
   projectSkills: many(projectSkills),
   userComments: many(userComments),
@@ -214,7 +214,7 @@ export const users = pgTable("users", {
   id,
   image: text("image"),
   name: varchar("name", { length: 191 }),
-  walkthrough: boolean("walkthrough").default(true),
+  onboarded: boolean("onboarded").default(false),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -263,6 +263,7 @@ export const userProjects = pgTable(
   "user_projects",
   {
     id,
+    isLeader: boolean("is_leader").notNull().default(false),
     projectId: foreignKey("project_id")
       .notNull()
       .references(() => projects.id),
@@ -270,7 +271,6 @@ export const userProjects = pgTable(
     userId: foreignKey("user_id")
       .notNull()
       .references(() => users.id),
-    isLeader: boolean("is_leader").default(false),
   },
   (userProject) => ({
     projectIdIndex: index("project_id_index").on(userProject.projectId),

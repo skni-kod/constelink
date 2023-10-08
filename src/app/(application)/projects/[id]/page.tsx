@@ -1,15 +1,13 @@
 import { HelpingHand, Plus } from "lucide-react";
 
-import { Avatar } from "@/components/avatar";
 import { Badge } from "@/components/badge";
-import { Button, button } from "@/components/button";
+import { button } from "@/components/button";
 import { Image } from "@/components/image";
 import { LayoutHero, layoutHeroImage } from "@/components/layout/hero";
 import { Link } from "@/components/link";
-import { MemberCard } from "@/components/member-card";
+import { Members } from "@/components/members";
 
 import { createServer } from "@/server";
-import { getSession } from "@/server/authentication/session";
 
 import { typography } from "@/utilities/typography";
 
@@ -21,15 +19,8 @@ export type ProjectPageProps = {
 
 const ProjectPage = async ({ params: { id } }: ProjectPageProps) => {
   const server = await createServer();
-
   const project = await server.project.getProject({ id });
 
-  const session = await getSession();
-
-  const isLeader = session
-    ? await server.project.isProjectLeader({ id, userId: session?.user.id })
-    : false;
-  const contactUrl = `/projects/${id}/contact`;
   return (
     <LayoutHero
       backgroundImage={
@@ -71,11 +62,14 @@ const ProjectPage = async ({ params: { id } }: ProjectPageProps) => {
               {project.description}
             </p>
             <div className="my-6 flex flex-col gap-2 sm:flex-row">
-              <Link className={button({ size: "lg" })} href="/">
+              <Link className={button()} href="/">
                 <Plus className="h-5 w-5" />
                 Join
               </Link>
-              <Link className={button({ size: "lg" })} href={contactUrl}>
+              <Link
+                className={button({ variant: "secondary" })}
+                href={`/projects/${id}/contact`}
+              >
                 <HelpingHand className="h-5 w-5" />
                 Invest
               </Link>
@@ -88,7 +82,7 @@ const ProjectPage = async ({ params: { id } }: ProjectPageProps) => {
                 variant: "heading-2",
               })}
             >
-              Hard Skills
+              Hard skills
             </h2>
             <ul className="flex flex-wrap gap-2">
               <Badge>HTML</Badge>
@@ -105,7 +99,7 @@ const ProjectPage = async ({ params: { id } }: ProjectPageProps) => {
                 variant: "heading-2",
               })}
             >
-              Soft Skills
+              Soft skills
             </h2>
             <ul className="flex flex-wrap gap-2">
               <Badge>Communication</Badge>
@@ -124,15 +118,15 @@ const ProjectPage = async ({ params: { id } }: ProjectPageProps) => {
             >
               Members
             </h2>
-            <ul>
-              {project.userProjects.map(({ user }) => (
-                <MemberCard
-                  key={user.id}
-                  user={user}
-                  button={isLeader}
-                ></MemberCard>
-              ))}
-            </ul>
+            <Members
+              members={project.userProjects.map(({ isLeader, role, user }) => ({
+                id: user.id,
+                image: user.image,
+                isLeader,
+                name: user.name,
+                role,
+              }))}
+            />
           </div>
         </div>
       </section>

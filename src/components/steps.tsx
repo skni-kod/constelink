@@ -25,7 +25,7 @@ export type StepsProps = StepContextState & {
 };
 
 type StepContextState = {
-  onChange: (step: number) => void;
+  onChange?: (step: number) => void;
   step: number;
 };
 
@@ -42,7 +42,7 @@ const useSteps = () => {
 };
 
 const step = cva({
-  base: "flex cursor-pointer flex-col border-l-4 py-2 pl-4 transition hover:border-muted-foreground md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4",
+  base: "flex flex-col border-l-4 py-2 pl-4 transition enabled:cursor-pointer enabled:hover:border-muted-foreground md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4",
   variants: {
     variant: {
       completed: "border-primary",
@@ -67,7 +67,7 @@ export const StepButton = ({
           variant: index <= currentStep ? "completed" : undefined,
         })}
         onClick={(event) => {
-          onChange(index);
+          onChange?.(index);
           onClick?.(event);
         }}
         {...props}

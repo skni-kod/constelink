@@ -98,7 +98,7 @@ export const projectRouter = router({
       orderBy: (projects, { desc }) => [desc(projects.createdAt)],
     });
 
-    return projects;
+    return nullToUndefined(projects);
   }),
 
   getSimilarProjects: procedure.query(async () => {
@@ -129,7 +129,7 @@ export const projectRouter = router({
         });
       }
 
-      return user.userProjects.map(({ project }) => project);
+      return nullToUndefined(user.userProjects.map(({ project }) => project));
     }),
 
   getProject: publicProcedure

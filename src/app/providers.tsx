@@ -24,7 +24,11 @@ export const Providers = ({ children }: ProvidersProps) => {
     <api.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <SessionProvider>
-          <ThemeProvider attribute="class" disableTransitionOnChange>
+          <ThemeProvider
+            attribute="class"
+            disableTransitionOnChange
+            defaultTheme="dark"
+          >
             {children}
             <Toaster />
             <ReactQueryDevtools />

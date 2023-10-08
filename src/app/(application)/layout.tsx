@@ -25,7 +25,7 @@ const ApplicationLayout = async ({ children }: ApplicationLayoutProps) => {
 
   return (
     <>
-      <Header initialUser={session.user} />
+      <Header initialUser={session?.user} />
       {children}
       <Footer />
     </>

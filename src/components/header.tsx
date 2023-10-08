@@ -85,9 +85,6 @@ export const Header = ({ initialUser }: HeaderProps) => {
               <DropdownMenuItem asChild>
                 <Link href={`/users/${user.id}`}>Profile</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href={`/users/${user.id}/projects`}>My projects</Link>
-              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => void signOut()}>
                 Sign out

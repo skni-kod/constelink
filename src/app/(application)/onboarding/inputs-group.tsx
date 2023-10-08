@@ -2,26 +2,41 @@ import { useState } from "react";
 
 import { Item, Root } from "@radix-ui/react-radio-group";
 
-import { CircleInput } from "@/components/circle-input";
-
-import { cx } from "@/utilities/classname";
+import { typography } from "@/utilities/typography";
 
 type InputsGroupProps = {
   title: string;
 };
 
+const sizes = [
+  "2.75rem",
+  "2.25rem",
+  "1.75rem",
+  "1.25rem",
+  "1.75rem",
+  "2.25rem",
+  "2.75rem",
+];
+
 export const InputsGroup = ({ title }: InputsGroupProps) => {
-  const sizes = ["50px", "40px", "30px", "20px", "30px", "40px", "50px"];
   const [value, setValue] = useState("3");
+
   return (
     <div className="flex flex-col items-center gap-4">
-      <h2 className="text-center text-2xl font-bold">{title}</h2>
-      <div className="flex items-center gap-12 text-xl">
-        <div className="text-green-200">Agree</div>
+      <h2
+        className={typography({
+          className: "max-w-prose text-center [text-wrap:balance]",
+          variant: "heading-4",
+        })}
+      >
+        {title}
+      </h2>
+      <div className="flex w-full flex-col items-center justify-center gap-8 text-sm sm:flex-row">
+        <div className="hidden text-green-500 sm:flex">Agree</div>
         <Root
+          className="flex w-full max-w-xs items-center justify-between gap-1"
           onValueChange={setValue}
           value={value}
-          className="flex items-center gap-4"
         >
           {sizes.map((size, index) => (
             <Item
@@ -35,7 +50,10 @@ export const InputsGroup = ({ title }: InputsGroupProps) => {
             />
           ))}
         </Root>
-        <div className="text-red-200">Disagree</div>
+        <div className="mx-auto flex w-full max-w-xs justify-between sm:mx-0 sm:w-auto sm:max-w-none">
+          <div className="text-green-500 sm:hidden">Agree</div>
+          <div className="text-red-500">Disagree</div>
+        </div>
       </div>
     </div>
   );

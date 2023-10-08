@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 
 import { cva } from "@/utilities/classname";
-import { typography } from "@/utilities/typography";
 
 export type LayoutHeroProps = {
   backgroundImage?: ReactNode;

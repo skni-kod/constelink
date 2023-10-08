@@ -2,7 +2,7 @@ import { Avatar } from "@/components/avatar";
 import { Badge } from "@/components/badge";
 import { Image } from "@/components/image";
 import { LayoutHero, layoutHeroImage } from "@/components/layout/hero";
-import { ProjectList } from "@/components/project-list";
+import { Projects } from "@/components/projects";
 
 import { createServer } from "@/server";
 
@@ -72,7 +72,7 @@ const UserPage = async ({ params: { id } }: UserProjectsPageProps) => {
                 {user.bio}
               </>
             )}
-            {projects && (
+            {projects.length > 0 && (
               <>
                 <h2
                   className={typography({
@@ -82,7 +82,10 @@ const UserPage = async ({ params: { id } }: UserProjectsPageProps) => {
                 >
                   Projects
                 </h2>
-                <ProjectList projects={projects} />
+                <Projects
+                  className="flex w-full flex-col"
+                  projects={projects}
+                />
               </>
             )}
           </div>
@@ -93,7 +96,7 @@ const UserPage = async ({ params: { id } }: UserProjectsPageProps) => {
                 variant: "heading-2",
               })}
             >
-              Hard Skills
+              Hard skills
             </h2>
             <ul className="flex flex-wrap gap-2">
               <Badge>HTML</Badge>
@@ -110,7 +113,7 @@ const UserPage = async ({ params: { id } }: UserProjectsPageProps) => {
                 variant: "heading-2",
               })}
             >
-              Soft Skills
+              Soft skills
             </h2>
             <ul className="flex flex-wrap gap-2">
               <Badge>Communication</Badge>
