@@ -340,7 +340,7 @@ export const OnboardingMain = ({
                   >
                     Selected skills
                   </h2>
-                  <div className="flex h-full flex-wrap gap-4">
+                  <div className="flex h-full flex-wrap items-start gap-4">
                     {selectedSkills.length > 0 ? (
                       selectedSkills.map((skill) => (
                         <div key={skill.id}>
@@ -350,6 +350,22 @@ export const OnboardingMain = ({
                           >
                             {skill.name}
                           </Badge>
+                          <RadioGroup defaultValue="beginner">
+                            {advancements.map((advancement) => (
+                              <div
+                                className="flex items-center gap-2"
+                                key={advancement}
+                              >
+                                <RadioGroupItem
+                                  id={`${skill.id}-${advancement}`}
+                                  value={advancement}
+                                />
+                                <Label htmlFor={`${skill.id}-${advancement}`}>
+                                  {advancement}
+                                </Label>
+                              </div>
+                            ))}
+                          </RadioGroup>
                         </div>
                       ))
                     ) : (
@@ -432,33 +448,16 @@ export const OnboardingMain = ({
                   >
                     Selected skills
                   </h2>
-                  <div className="flex h-full flex-wrap gap-4">
+                  <div className="flex h-full flex-wrap items-start gap-4">
                     {selectedSoftSkills.length > 0 ? (
                       selectedSoftSkills.map((skill) => (
-                        <div key={skill.id}>
-                          <Badge
-                            className="mb-2 cursor-pointer"
-                            onClick={() => deselectSoftSkill(skill)}
-                          >
-                            {skill.name}
-                          </Badge>
-                          <RadioGroup defaultValue="beginner">
-                            {advancements.map((advancement) => (
-                              <div
-                                className="flex items-center gap-2"
-                                key={advancement}
-                              >
-                                <RadioGroupItem
-                                  id={`${skill.id}-${advancement}`}
-                                  value={advancement}
-                                />
-                                <Label htmlFor={`${skill.id}-${advancement}`}>
-                                  {advancement}
-                                </Label>
-                              </div>
-                            ))}
-                          </RadioGroup>
-                        </div>
+                        <Badge
+                          className="mb-2 cursor-pointer"
+                          key={skill.id}
+                          onClick={() => deselectSoftSkill(skill)}
+                        >
+                          {skill.name}
+                        </Badge>
                       ))
                     ) : (
                       <div className="flex h-full w-full flex-col items-center justify-center gap-4">
@@ -492,28 +491,54 @@ export const OnboardingMain = ({
               >
                 Please check all information
               </p>
-              <p className="mt-16 text-xl">
-                Personality type - {personality?.code}:{personality?.name}
-              </p>
-              <p className="text-l md-4"> {personality?.description}</p>
-              <div className="flex items-start justify-between">
-                <div className="flex w-5/12 flex-wrap gap-2">
-                  <h2 className="font-xl w-full">Hard skills</h2>
-                  {selectedSkills.map((skill) => (
-                    <div key={skill.id}>
-                      <Badge className={"mb-2"}>{skill.name}</Badge>
-                    </div>
-                  ))}
+
+              <div className="mt-16 grid w-full grid-cols-1 gap-8 lg:grid-cols-2">
+                <div>
+                  <h2
+                    className={typography({
+                      className: "my-8 text-center",
+                      variant: "heading-2",
+                    })}
+                  >
+                    Hard skills
+                  </h2>
+                  <div className="flex h-full flex-wrap items-start justify-center gap-4">
+                    {selectedSkills.map((skill) => (
+                      <div key={skill.id}>
+                        <Badge className="mb-2">{skill.name}</Badge>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex w-5/12 flex-wrap gap-2">
-                  <h2 className="font-xl w-full">Soft skills</h2>
-                  {selectedSoftSkills.map((softSkill) => (
-                    <div key={softSkill.id}>
-                      <Badge className={"mb-2"}>{softSkill.name}</Badge>
-                    </div>
-                  ))}
+                <div>
+                  <h2
+                    className={typography({
+                      className: "my-8 text-center",
+                      variant: "heading-2",
+                    })}
+                  >
+                    Soft skills
+                  </h2>
+                  <div className="flex h-full flex-wrap items-start justify-center gap-4">
+                    {selectedSoftSkills.map((softSkill) => (
+                      <div key={softSkill.id}>
+                        <Badge className="mb-2">{softSkill.name}</Badge>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
+              <h3
+                className={typography({
+                  className: "mb-2 mt-16 text-center",
+                  variant: "heading-4",
+                })}
+              >
+                Personality type - {personality?.code}: {personality?.name}
+              </h3>
+              <p className="text-l md-4 text-center text-muted-foreground">
+                {personality?.description}
+              </p>
             </div>
           </section>
         )}
